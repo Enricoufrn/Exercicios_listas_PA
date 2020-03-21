@@ -1,0 +1,592 @@
+Lista de Exercícios (Ponteiros)
+
+Bruna Alice Oliveira de Brito
+Enrico Luigi
+===================================================================
+Questão 1
+De modo geral, o uso de ponteiros permite ao programador projetar códigos mais otimizados, conseguindo um melhor desempenho e um uso reduzido de memória. Quando se trata de
+engenharia de computação, a maior parte dos problemas que surgirão demandarão o conhecimento dessa ferramenta.
+
+=======================================================================
+Questão 2 
+ -- p == &i retorna 1;
+ -- *p - *q retorna -2;
+ --**&p retorna 3;
+ -- 3 - *p/(*q) + 7 retorna 7.
+
+====================================================================
+Questão 3
+ A saída do código será: “FFE”(Endereço em Hexadecimal), “ 7” , “5”, “15” e “9”.
+
+=====================================================================
+Questão 4
+
+p = i; // Ruim: p fica com um valor inteiro, isto é, não é o endereçamento de i;
+q = & j; // Legal: q recebe o endereco de j;
+p = & * & i; // Legal: p recebe o endereco de i;
+i = (* &) j; // Ruim: a sintaxe não funciona com os parenteses;
+i = * & j; // Legal: i recebe o valor de j;
+i = * & * & j; // Legal: i recebe o valor de j;
+q = * p; // Ruim: q fica com um valor inteiro armazenado em p, e não no endereco de p;
+i = (* p)++ + * q; // Ruim: Resulta em um número inteiro entretanto o operador ++ não tem atividade no caso.
+
+======================================================================
+Questão 5
+
+int main() {
+  int    valor;
+  int   *p1;
+  float  temp;
+  float *p2;
+  char   aux;
+  char  *nome = "Ponteiros";
+  char  *p3;
+  int    idade;
+  int    vetor[3];
+  int   *p4;
+  int   *p5;
+
+  /* (a) */
+  valor = 10;
+  p1 = &valor;
+  *p1 = 20;  // alterou o conteúdo de variável 
+  printf("%d \n", valor);
+// saída esperada 20
+  /* (b) */
+  temp = 26.5;
+  p2 = &temp;
+  *p2 = 29.0; // alterou o conteúdo de variável 
+  printf("%.1f \n", temp);
+// saída esperada 29.0 
+  /* (c) */
+  p3 = &nome[0]; / endereço do endereço de "nome" /
+  aux = *p3;
+  printf("%c \n", aux);
+// esperado p 
+  /* (d) */
+  p3 = &nome[4]; // mesmo princípio da anterior
+  aux = *p3;
+  printf("%c \n", aux);
+// esperado e
+  /* (e) */
+  p3 = nome; // p3 igual a nome que aponta para o primeiro elemento do char
+  printf("%c \n", *p3);
+// esperado p
+  /* (f) */
+  p3 = p3 + 4;// igual a nome índice 4
+  printf("%c \n", *p3);
+// esperado e
+  /* (g) */
+  p3--; // mesmo princípio da anterior
+  printf("%c \n", *p3);
+//esperado t
+  /* (h) */
+  vetor[0] = 31;
+  vetor[1] = 45;
+  vetor[2] = 27;
+  p4 = vetor;  // vetor==>vetor[0] = p4
+  idade = *p4;
+  printf("%d \n", idade);
+//esperado 31
+
+  /* (i) */
+  p5 = p4 + 1; // == vetor + 1 ==> vetor[1]
+  idade = *p5;
+  printf("%d \n", idade);
+//esperado 45
+  /* (j) */
+  p4 = p5 + 1; // == vetor[2]== vetor + 1 + 1 
+  idade = *p4;
+  printf("%d \n", idade);
+// esperado 27
+  /* (l) */
+  p4 = p4 - 2;
+  idade = *p4;
+  printf("%d \n", idade);
+// esperado 31
+  /* (m) */
+  p5 = &vetor[2] - 1;
+  printf("%d \n", *p5);
+// esperado 45
+  /* (n) */
+  p5++;
+  printf("%d \n", *p5);
+// esperado 27
+  return(0);
+}
+
+=============================================================================
+Questao 6
+
+int main(void){
+  float vet[5] = {1.1,2.2,3.3,4.4,5.5};
+  float *f;
+  int i;
+  f = vet;
+  printf("contador/valor/valor/endereco/endereco");
+  for(i = 0 ; i <= 4 ; i++){
+    printf("\ni = %d",i);
+    printf("vet[%d] = %.1f",i, vet[i]);
+    printf("*(f + %d) = %.1f",i, *(f+i));
+    printf("&vet[%d] = %X",i, &vet[i]);
+    printf("(f + %d) = %X",i, f+i);
+  }
+}
+// para a saida teremos: (primeiro laço como exemplo)
+// i = 0 (contador iniciado em 0) vet[0] = 1.1 (conteudo guardado em "vet[0]") *(f + 0) = 1.1 (conteudo que está no endereço que "f + 0(saltos)" aponta, ou seja, igual a vet[0]) &vet[0] = 61FDF0 (endereço de memoria que o primeiro elemento do vetor está armazenado) (f + 0) = 61FDF0 (endereço armazenado em "f + 0(saltos)")
+// para os outros laços é esperado o mesmo comportamento
+//saída obtida
+// i = 0vet[0] = 1.1*(f + 0) = 1.1&vet[0] = 61FDF0(f + 0) = 61FDF0
+// i = 1vet[1] = 2.2*(f + 1) = 2.2&vet[1] = 61FDF4(f + 1) = 61FDF4
+// i = 2vet[2] = 3.3*(f + 2) = 3.3&vet[2] = 61FDF8(f + 2) = 61FDF8
+// i = 3vet[3] = 4.4*(f + 3) = 4.4&vet[3] = 61FDFC(f + 3) = 61FDFC
+// i = 4vet[4] = 5.5*(f + 4) = 5.5&vet[4] = 61FE00(f + 4) = 61FE00
+
+==============================================================================
+Questão 7
+
+#include <stdio.h>
+
+int main()
+{
+    int pulo[6] = {1,2,3,4,5,6};
+    printf("endereco do terceiro elemento de pulo = %x \n",&pulo[2]);
+    printf("pulo +2 = %x\n",pulo+2);
+    return 0;
+}
+
+// "pulo + 2" deve ser o endereço de memoria que contem o terceiro elemento de "pulo"
+// saída:
+// endereco do terceiro elemento de pulo = 61fe08
+// pulo +2 = 61fe08
+
+===============================================================================
+Questão 8
+
+int main()
+{
+    int mat[4]={1,2,3,4}, *p, x;
+    p = mat + 1; // válida e igual "p = &mat[1]", pois "mat" já é um ponteiro que aponta para o primeiro termo do vetor
+    //p = mat++; // inválida
+    //p = ++mat; // inválida
+    x = (*mat)++; // a soma é invalida, no caso x = mat[0]
+    printf("x = %d\n",x);
+    return 0;
+}
+
+===============================================================================
+Questão 9
+
+int main(){
+  int vet[] = {4,9,13};
+  int i;
+  for(i=0;i<3;i++){
+    printf("%d ",*(vet+i)); // exibi 4,9,13 
+  }
+} 
+
+int main(){
+  int vet[] = {4,9,13};
+  int i;
+  for(i=0;i<3;i++){
+    printf("%X ",vet+i); // exibi os endereços de onde estão armazenado cada elemento do vetor
+  }
+}
+
+===============================================================================
+Questão 10
+
+x for declarado como char?
+x+1 = 4093, x+2 = 4094 e x+3 = 4095
+
+x for declarado como int?
+x+1 = 4094, x+2 = 4096 e x+3 = 4098
+
+x for declarado como float?
+x+1 = 4096, x+2 = 4100 e x+3 = 4104
+
+x for declarado como double?
+x+1 = 4100, x+2 = 4108 e x+3 = 4116
+
+==============================================================================
+Questão 11
+
+Na prática, fizemos os testes utilizando: Char, int, float e double. Ao compilar o programa, 
+foi obtido resultados diferentes dos supostos.
+
+#include<stdlib.h>
+#include<stdio.h>
+
+int main(){
+     char vetc[4];
+     int veti[4];
+     float vetf[4];
+     double vetd[4];
+  int i;
+  for(i=1;i<4;i++){
+    printf("%d ",(vetc+i));
+    printf("%d ",(veti+i));
+    printf("%d ",(vetf+i));
+    printf("%d ",(vetd+i));
+    printf("\n");
+  }
+  return(0);
+}
+
+================================================================================
+Questão 12
+
+float aloha[10], coisas[10][5], *pf, value = 2.2;
+int i=3;
+
+aloha[2] = value;   //válido, recebe 2.2
+
+scanf("%f", &aloha);  //válido, o conteúdo vai para aloha[0]
+
+aloha = value"; //inválido, aloha é um ponteiro
+
+printf("%f", aloha); //válido, retorna aloha[0]
+
+coisas[4][4] = aloha[3];  //válido
+
+coisas[5] = *aloha;  //inválido, não se pode utilizar essa atribuição por ser uma matriz 
+
+pf = value;  //inválido, pf é um ponteiro
+
+pf = aloha;  //válido, aloha é um vetor e repassa seu endereço nessa atribuição
+
+==================================================================================
+Questão 13
+
+Ponteiros para funções trabalha passando uma função como parâmetro para outra função, ou seja, o programador pode ter acesso ao determinado endereço de uma função.
+
+#include<stdio.h>
+
+int fsoma(int x,int y){
+   return (x+y);
+}
+
+int main(){
+   int (*p)(), f, x, y;  //(*p)() é um ponteiro para uma função
+   scanf("%d", &x);
+   scanf("%d", &y);
+   p=fsoma; //atribui ao ponteiro p a função soma
+   f=p(x,y);
+   printf("%d\n",f);
+   return 0;
+}
+
+
+====================================================================================
+Questão 14
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(){
+  float *p;
+  int n, i, j, aux;
+  n = 3;
+  p = (float*) malloc(n*sizeof(float));
+
+  for(j=0;j<n;j++){
+      scanf("%f",&p[j]);
+  }
+
+  for(i=0; i<n; i++){
+      for (j=i+1;j<n;j++){
+          if(p[i]>p[j]){
+          aux =p[i];
+          p[i]= p[j];
+          p[j]=aux;
+          }
+      }
+  }
+  for(j=0;j<n;j++){
+      if(j==n-1){
+      printf("%.2f ",p[j]);
+      }
+      else  {
+          printf("%.2f, ",p[j]);
+      }
+  }
+free(p);
+return 0;
+}
+
+
+==========================================================================================
+Questão 15
+
+#include<stdio.h>
+#include<stdlib.h>
+
+int compara(const void *a,const void *b) //função que compara dois valores retornando um inteiro
+{
+   return *(int*)a-*(int*)b;  //essa funcao faz parte da chamada da funçao qsort da stdlib
+}
+int main(){
+  int *v,n,i,(*com)(); //dando nome às variáveis que serão utilizadas
+  com=compara;  //com é o ponteiro para a funçao de comparação
+  scanf("%d",&n);  //o usuario digita o tamanho do vetor
+  v = (int *)malloc(n*sizeof(int));  //reservando espaço para o vetor v com alocação dinâmica
+  for(i=0;i<n;i++){
+     *(v+i)=n-i; //preenchimento do vetor
+  }
+  qsort(v, n, sizeof(int), com); //chamada da função qsort usando um ponteiro para a funçao de comparação
+  for(i=0;i<n;i++){
+     printf("%d \n",*(v+i));//mostrando elementos ordenados pela função qsort;
+  }
+  free(v);//liberando o espaço oculpado pelo vetor;
+  return 0;
+}
+
+
+=============================================================================================
+Questão 16
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int comp (const void *a, const void *b) {
+   return ( *(int*)a - *(int*)b );
+}
+
+int main (void) {
+   int i, array[] = { 16, 12, 31, 4, 2, 52 };
+
+   qsort(array, 6, sizeof(int), comp);
+
+   for( i = 0 ; i < 6; i++ ) {
+      printf("%i ", array[i]);
+   }
+
+   return 0;
+}
+
+===============================================================================================
+Questão 17
+
+Algum dos mecanismos que possibilitam medir tempos de execução de rotinas computacionais é a biblioteca lib time.h, que calcula quanto tempo demorou 
+para determinado programa executar, com base no horário que iniciou a compilação até o horário do término. Para isso podemos usar dois operadores que 
+possibilitam executar a medição, o time(NULL) e o clock(). Fazendo os testes no programas anteriores, foi usado:
+
+float tempo;
+time_t   time_ini, time_f;
+time_ini = time(NULL);
+time_f = time(NULL);
+tempo = difftime(time_f, time_ini);
+
+Com isso foram obtidos resultados entre 0.7s e 2.0s no primeiro programa. Já no segundo caso, em torno de 0.1s.
+
+=================================================================================================
+Questão 18
+
+#include <stdio.h>
+
+void soma_de_vetores (float *v1,float *v2,float *vs,int t)
+{
+    // ===== atribuição da soma do vetores digitados ao vetor da soma ====== //
+    for (int i=0;i<t;i++)
+    {
+        vs[i] = v1[i] + v2[i];
+    }
+    printf("\n");
+    //====== exibição o vetor soma ====== //
+    printf(" vetor da soma = ");
+    for(int j=0;j<t;j++)
+    {
+        printf("%f, ",vs[j]);
+    }
+    printf("\n");
+}
+
+int main()
+{
+    int t;
+    float n1,n2;
+    // ======== atribuição do tamanho dos vetores e inicialização dos vetores ========= //
+    printf("digite o numero de 'casas' dos vetors : ");
+    scanf("%d/n",&t);
+    float v1[t];
+    float v2[t];
+    float vs[t];
+    // ====== atribuição dos elementos do vetores =========//
+    printf("digite os elementos do vetores a serem somados: ");
+    printf("\n");
+    for(int i=0;i<t;i++)
+    {
+        printf("elemento %d do vetor 1 = ",i);
+        scanf("%f",&n1);
+        v1[i] = n1;
+        printf("elemento %d do vetor 2 = ",i);
+        scanf("%f",&n2);
+        v2[i] = n2;
+    }
+    //============= exibição os vetores digitados =========== //
+    printf(" v1 = ");
+    for(int j1=0;j1<t;j1++)
+    {
+        printf("%f, ",v1[j1]);
+    }
+    printf("\n");
+    printf(" v2 = ");
+    for(int j2=0;j2<t;j2++)
+    {
+        printf("%f, ",v2[j2]);
+    }
+    printf("\n");
+    // ======== chamada da função ======= //
+    soma_de_vetores(&v1,&v2,&vs,t);
+    return 0;
+}
+
+==============================================================================================
+Questão 19
+
+#include <stdio.h>
+#include <stdlib.h> // para malloc e free
+void multiplica_matrizes(int **a,int **b,int **c,int nla,int nca, int ncb)
+{
+    int aux; // variável auxiliar
+    for(int i=0;i<nla;i++)
+    {
+        for(int j=0;j<ncb;j++) 
+        {
+            aux = 0;
+            // laço responsável pelo produto de cada elemento da linha pelo
+            // respectivo elemento da coluna realizando as respectivas somas
+            for(int x=0;x<nca;x++) // laço responsavel pelo produto de cada elemento da linha por coluna 
+            {
+                aux +=  a[i][x] * b[x][j];
+            }
+            c[i][j] = aux; // guardo na matriz c o resultado da operação no laço anterior
+            aux = 0; // zero para reutilizar a variável
+        }
+    }
+}
+
+int main()
+{
+    int **a,**b,**c;
+    int i,j;
+    int nla = 3, nca = 4, ncb = 2, nlb = 4;
+    // ====== aloca a matriz a e seu veto auxiliar =======//
+    a = (int**)malloc(nla*sizeof(int*));
+    a[0] = (int*)malloc(nla*nca*sizeof(int));
+    // ====== ajusta o endereço vetor auxiliar ====== //
+    for(i=1;i<nla;i++){
+        a[i]=a[i-1] + nca;
+    }
+    b = (int**)malloc(nlb*sizeof(int*));
+    b[0] = (int*)malloc(nlb*ncb*sizeof(int));
+    for(i=1;i<nlb;i++){
+        b[i]=b[i-1] + ncb;
+    }
+    c = (int**)malloc(nla*sizeof(int*));
+    c[0] = (int*)malloc(nla*ncb*sizeof(int));
+    for(i=1;i<nla;i++){
+        c[i]=c[i-1] + ncb;
+    }
+    printf("Matriz a eh:\n");
+    // ===== matriz a ===== //
+    a[0][0]=3; a[0][1]=4;
+    a[0][2]=1; a[0][3]=2;
+    
+    a[1][0]=5; a[1][1]=6;
+    a[1][2]=1; a[1][3]=6;
+    
+    a[2][0]=7; a[2][1]=8;
+    a[2][2]=3; a[2][3]=3;
+    for(i=0;i<nla;i++){
+        for(j=0;j<nca;j++){
+            printf("%2d, ",a[i][j]);
+        }
+        printf("\n");
+    }
+    printf("Matriz b eh:\n");
+    // ====== matriz b ======//
+    b[0][0]=9; b[0][1]=3;
+    b[1][0]=5; b[1][1]=7;
+    b[2][0]=7; b[2][1]=8;
+    b[3][0]=3; b[3][1]=6;
+    for(i=0;i<nlb;i++){
+        for(j=0;j<ncb;j++){
+            printf("%2d, ",b[i][j]);
+        }
+        printf("\n");
+    }
+    // ===== chamada da função para realização da operação ===== //
+    multiplica_matrizes(a,b,c,nla,nca,ncb);
+    printf("Matriz C=AB eh: \n");
+    for(i=0;i<nla;i++){
+        for(j=0;j<ncb;j++){
+            printf("%2d, ",c[i][j]);
+        }
+        printf("\n");
+    }
+    // ====== libera a memória ===== //
+    free(a[0]);
+    free(a);
+    free(b[0]);
+    free(b);
+    free(c[0]);
+    free(c);
+    return 0;
+}
+
+
+=====================================================================================
+Questão 20
+
+O libGC (Garbage Collector) que implementa um coletor de lixo em C, é usada para substituir o malloc. O libGC faz alocação de memória, sem 
+desalocar a memória que não é mais útil.
+
+# include<gc.h>
+# include<assert.h>
+# include<stdio.h>
+
+int  main () {
+        GC_INIT (); // Inicializar um LibGC
+        int * p = ( int *) GC_MALLOC ( 1000 * sizeof ( int )); // A memória é alocada por meio da função GC_MALLOC, sem a necessidade de utilizar gratuitamente.
+        int * q = ( int *) GC_MALLOC ( 1000 * sizeof ( int ));
+        * p = 50 ;
+        * q = 25 ;
+        int soma = * p + * q;
+        printf ( " A soma e % d " , soma);
+        return  0 ;
+}
+
+=============================================================================================
+Questão 21
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<time.h>
+#include<gc.h>
+#include<assert.h>
+
+int main(){
+     int i;
+     double Tempo;
+     clock_t tempo[2];
+     GC_INIT();
+     //Medindo o tempo de execução da libGC
+     tempo[0] = clock();
+     for (i = 0; i<9999999; i++){
+        int *p = (int *) GC_MALLOC(1000000*sizeof(int));
+     }
+     tempo[1] = clock();
+     Tempo = (tempo[1] - tempo[0]) *1000.0/ (double) CLOCKS_PER_SEC;
+     printf("\nTempo gasto: %g us. \n", Tempo);
+     //Medindo o tempo de execução do malloc
+     tempo[0] = clock();
+     for (i = 0; i<9999999; i++){
+        int *p = (int *) malloc(1000*sizeof(int));
+        free(p);
+     }
+     tempo[1] = clock();
+     Tempo= (tempo[1] - tempo[0]) *1000000.0/ (double) CLOCKS_PER_SEC;
+     printf("\nTempo gasto: %g us. \n", Tempo);
+     return 0;
+}
